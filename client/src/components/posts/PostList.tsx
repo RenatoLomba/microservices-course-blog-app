@@ -7,6 +7,7 @@ import { CommentList } from './comments/CommentList';
 interface IComment {
   id: string;
   content: string;
+  status: 'approved' | 'pending' | 'rejected';
 }
 
 interface IPost {

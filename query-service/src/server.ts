@@ -10,6 +10,7 @@ app.use(cors());
 interface IComment {
   id: string;
   content: string;
+  status: string;
 }
 
 interface IPost {
@@ -24,7 +25,7 @@ interface IPostsData {
 
 const posts: IPostsData = {};
 
-app.get('/posts', (req, res) => {
+app.get('/posts', (_, res) => {
   return res.json(posts);
 });
 
@@ -35,9 +36,21 @@ function handlePostCreated(data: IPost) {
 }
 
 function handleCommentCreated(data: IComment & { postId: string }) {
-  const { id, content, postId } = data;
+  const { id, content, postId, status } = data;
 
-  posts[postId].comments.push({ id, content });
+  posts[postId].comments.push({ id, content, status });
+}
+
+function handleCommentUpdated(data: IComment & { postId: string }) {
+  const { content, id, postId, status } = data;
+
+  const post = posts[postId];
+  const comment = post.comments.find((cm) => cm.id === id);
+
+  if (!comment) return;
+
+  comment.status = status;
+  comment.content = content;
 }
 
 app.post('/events', (req, res) => {
@@ -49,6 +62,9 @@ app.post('/events', (req, res) => {
       break;
     case EventTypes.COMMENT_CREATED:
       handleCommentCreated(data);
+      break;
+    case EventTypes.COMMENT_UPDATED:
+      handleCommentUpdated(data);
       break;
     default:
       break;
