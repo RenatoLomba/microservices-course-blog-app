@@ -1,3 +1,4 @@
+import axios from 'axios';
 import cors from 'cors';
 import express from 'express';
 
@@ -53,28 +54,49 @@ function handleCommentUpdated(data: IComment & { postId: string }) {
   comment.content = content;
 }
 
-app.post('/events', (req, res) => {
-  const { type, data } = req.body;
-
+function handleEvent(type: string, data: unknown) {
   switch (type) {
     case EventTypes.POST_CREATED:
-      handlePostCreated(data);
+      handlePostCreated(data as IPost);
       break;
     case EventTypes.COMMENT_CREATED:
-      handleCommentCreated(data);
+      handleCommentCreated(data as IComment & { postId: string });
       break;
     case EventTypes.COMMENT_UPDATED:
-      handleCommentUpdated(data);
+      handleCommentUpdated(data as IComment & { postId: string });
       break;
     default:
       break;
   }
+}
+
+app.post('/events', (req, res) => {
+  const { type, data } = req.body;
+
+  handleEvent(type, data);
 
   return res.send();
 });
 
 const port = process.env.PORT || 5002;
 
-app.listen(port, () => {
+interface IEvent {
+  type: string;
+  data: unknown;
+}
+
+app.listen(port, async () => {
   console.log(`Server is running on port ${port}...`);
+
+  try {
+    const { data } = await axios.get<IEvent[]>('http://localhost:5005/events');
+
+    data.forEach((event) => {
+      console.log('Processing event: ', event.type);
+
+      handleEvent(event.type, event.data);
+    });
+  } catch (error) {
+    console.log('Error on getting events from Event Bus', error);
+  }
 });

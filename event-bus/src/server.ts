@@ -4,8 +4,17 @@ import express from 'express';
 const app = express();
 app.use(express.json());
 
+interface IEvent {
+  type: string;
+  data: unknown;
+}
+
+const events: IEvent[] = [];
+
 app.post('/events', (req, res) => {
-  const event = req.body;
+  const event = req.body as IEvent;
+
+  events.push(event);
 
   axios
     .post('http://localhost:5000/events', event)
@@ -32,6 +41,10 @@ app.post('/events', (req, res) => {
     );
 
   return res.send({ status: 'OK' });
+});
+
+app.get('/events', (_, res) => {
+  return res.send(events);
 });
 
 const port = process.env.PORT || 5005;
