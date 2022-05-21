@@ -1,8 +1,8 @@
-import axios from 'axios';
 import cors from 'cors';
 import express from 'express';
 
 import { EventTypes } from './events';
+import { getEvents } from './services/event-bus';
 
 const app = express();
 app.use(express.json());
@@ -80,23 +80,14 @@ app.post('/events', (req, res) => {
 
 const port = process.env.PORT || 5002;
 
-interface IEvent {
-  type: string;
-  data: unknown;
-}
-
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}...`);
 
-  try {
-    const { data } = await axios.get<IEvent[]>('http://localhost:5005/events');
+  const events = await getEvents();
 
-    data.forEach((event) => {
-      console.log('Processing event: ', event.type);
+  events?.forEach((event) => {
+    console.log('Processing event: ', event.type);
 
-      handleEvent(event.type, event.data);
-    });
-  } catch (error) {
-    console.log('Error on getting events from Event Bus', error);
-  }
+    handleEvent(event.type, event.data);
+  });
 });

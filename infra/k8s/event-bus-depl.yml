@@ -1,0 +1,32 @@
+# Deployment for Event Bus
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-bus-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: event-bus
+  template:
+    metadata:
+      labels:
+        app: event-bus
+    spec:
+      containers:
+        - name: event-bus
+          image: redeye18/event-bus
+---
+# ClusterIP Service for Event Bus
+apiVersion: v1
+kind: Service
+metadata:
+  name: event-bus-clusterip-srv
+spec:
+  selector:
+    app: event-bus
+  ports:
+    - name: event-bus
+      protocol: TCP
+      port: 5005
+      targetPort: 5005

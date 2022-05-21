@@ -1,0 +1,32 @@
+# Deployment for Query
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: query
+  template:
+    metadata:
+      labels:
+        app: query
+    spec:
+      containers:
+        - name: query
+          image: redeye18/comments
+---
+# ClusterIP Service for Query
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-clusterip-srv
+spec:
+  selector:
+    app: query
+  ports:
+    - name: query
+      protocol: TCP
+      port: 5002
+      targetPort: 5002

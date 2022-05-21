@@ -17,25 +17,25 @@ app.post('/events', (req, res) => {
   events.push(event);
 
   axios
-    .post('http://localhost:5000/events', event)
+    .post('http://posts-clusterip-srv:5000/events', event)
     .catch((error) =>
       console.error('Error emitting event to Posts Service', error),
     );
 
   axios
-    .post('http://localhost:5001/events', event)
+    .post('http://comments-clusterip-srv:5001/events', event)
     .catch((error) =>
       console.error('Error emitting event to Comments Service', error),
     );
 
   axios
-    .post('http://localhost:5002/events', event)
+    .post('http://query-clusterip-srv:5002/events', event)
     .catch((error) =>
       console.error('Error emitting event to Query Service', error),
     );
 
   axios
-    .post('http://localhost:5003/events', event)
+    .post('http://moderation-clusterip-srv:5003/events', event)
     .catch((error) =>
       console.error('Error emitting event to Moderation Service', error),
     );

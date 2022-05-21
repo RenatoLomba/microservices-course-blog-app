@@ -48,7 +48,9 @@ app.post('/events', (req, res) => {
 });
 
 const port = process.env.PORT || 5000;
+const apiVersion = process.env.API_VERSION || '0.0.1';
 
 app.listen(port, () => {
+  console.log(`Posts service ${apiVersion}`);
   console.log(`Server is running on port ${port}...`);
 });
