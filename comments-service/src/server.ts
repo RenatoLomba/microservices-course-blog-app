@@ -102,7 +102,9 @@ app.post('/events', async (req, res) => {
 });
 
 const port = 5001;
+const appVersion = process.env.APP_VERSION || '0.0.1';
 
 app.listen(port, () => {
+  console.log(`App version: ${appVersion}`);
   console.log(`Server is running on port ${port}...`);
 });
