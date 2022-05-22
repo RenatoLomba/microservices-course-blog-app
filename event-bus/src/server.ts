@@ -47,7 +47,7 @@ app.get('/events', (_, res) => {
   return res.send(events);
 });
 
-const port = process.env.PORT || 5005;
+const port = 5005;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}...`);

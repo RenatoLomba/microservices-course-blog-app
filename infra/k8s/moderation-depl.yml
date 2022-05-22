@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: moderation
-          image: redeye18/comments
+          image: redeye18/moderation
 ---
 # ClusterIP Service for Moderation
 apiVersion: v1

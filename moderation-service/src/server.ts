@@ -7,8 +7,6 @@ import { emitEvent } from './services/event-bus';
 const app = express();
 app.use(express.json());
 
-const port = process.env.PORT || 5003;
-
 type ICommentModerationStatus = 'approved' | 'rejected';
 
 interface ICommentCreatedData {
@@ -55,6 +53,8 @@ app.post('/events', async (req, res) => {
 
   return res.send();
 });
+
+const port = 5003;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}...`);

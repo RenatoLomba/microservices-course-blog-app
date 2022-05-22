@@ -78,7 +78,7 @@ app.post('/events', (req, res) => {
   return res.send();
 });
 
-const port = process.env.PORT || 5002;
+const port = 5002;
 
 app.listen(port, async () => {
   console.log(`Server is running on port ${port}...`);

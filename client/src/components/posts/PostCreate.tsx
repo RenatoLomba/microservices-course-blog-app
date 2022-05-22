@@ -12,7 +12,7 @@ export const PostCreate: FC = () => {
 
     if (!canSubmitForm) return;
 
-    await postsService.post('/posts', {
+    await postsService.post('/posts/create', {
       title: title.trim(),
     });
 

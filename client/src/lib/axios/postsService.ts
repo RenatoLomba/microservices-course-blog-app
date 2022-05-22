@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const postsService = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'http://posts.com',
 });
 
 export { postsService };

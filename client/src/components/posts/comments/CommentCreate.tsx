@@ -1,6 +1,6 @@
 import { FC, FormEvent, useState } from 'react';
 
-import { commentsService } from '../../../lib/axios/commentsService';
+import { postsService } from '../../../lib/axios/postsService';
 
 interface ICommentCreateProps {
   postId: string;
@@ -16,7 +16,7 @@ export const CommentCreate: FC<ICommentCreateProps> = ({ postId }) => {
 
     if (!canSubmitForm) return;
 
-    await commentsService.post(`/posts/${postId}/comments`, {
+    await postsService.post(`/posts/${postId}/comments`, {
       content: content.trim(),
     });
 

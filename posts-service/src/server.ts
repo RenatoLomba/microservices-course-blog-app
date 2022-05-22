@@ -24,7 +24,7 @@ app.get('/posts', (_, res) => {
   return res.json(posts);
 });
 
-app.post('/posts', async (req, res) => {
+app.post('/posts/create', async (req, res) => {
   const id = randomBytes(4).toString('hex');
   const { title } = req.body;
 
@@ -47,7 +47,7 @@ app.post('/events', (req, res) => {
   return res.send();
 });
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 const apiVersion = process.env.API_VERSION || '0.0.1';
 
 app.listen(port, () => {

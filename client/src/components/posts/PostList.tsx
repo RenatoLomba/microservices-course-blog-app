@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 
-import { queryService } from '../../lib/axios/queryService';
+import { postsService } from '../../lib/axios/postsService';
 import { CommentCreate } from './comments/CommentCreate';
 import { CommentList } from './comments/CommentList';
 
@@ -24,7 +24,7 @@ export const PostList: FC = () => {
   const [posts, setPosts] = useState<IPostListData>();
 
   const fetchPosts = async () => {
-    const { data } = await queryService.get<IPostListData>('/posts');
+    const { data } = await postsService.get<IPostListData>('/posts');
 
     setPosts(data);
   };

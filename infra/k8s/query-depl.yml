@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: query
-          image: redeye18/comments
+          image: redeye18/query
 ---
 # ClusterIP Service for Query
 apiVersion: v1
